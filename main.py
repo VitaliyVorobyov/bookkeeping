@@ -45,7 +45,7 @@ async def start():
     request: Request = Request(pool_connect)
     dp: Dispatcher = Dispatcher(storage=storage)
     dp.update.middleware.register(DbSession(pool_connect))
-    dp.message.middleware.register(ValidationMiddleware([settings.bots.user_id_1, settings.bots.admin_id]))
+    dp.message.middleware.register(ValidationMiddleware([settings.bots.user_id_1, settings.bots.user_id_2]))
     dp.startup.register(start_bot)
     dp.shutdown.register(stop_bot)
     dp.include_routers(basic.router, input.router, statistics.router, deletemessage.router)
