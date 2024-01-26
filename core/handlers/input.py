@@ -18,7 +18,7 @@ async def cmd_amount(call: CallbackQuery, bot: Bot, state: FSMContext):
     await state.set_state(AddDataState.category)
     await state.update_data(category=1)
     await state.set_state(AddDataState.amount)
-    await bot.edit_message_text('Введите сумму:', call.from_user.id, call.message.message_id,
+    await bot.edit_message_text('Введите сумму___________:', call.from_user.id, call.message.message_id,
                                 reply_markup=numbers_kb())
 
 
@@ -32,7 +32,7 @@ async def cmd_numbers(call: CallbackQuery, callback_data: Numbers, bot: Bot, sta
         amount = (str(amount)+callback_data.name_button).replace('None', '')
     await state.update_data(amount=f'{amount}')
     await state.set_state(AddDataState.amount)
-    await bot.edit_message_text(f'Внесено__________:\n- {amount} ₽', call.from_user.id, call.message.message_id,
+    await bot.edit_message_text(f'Введенная сумма__________:\n- {amount} ₽', call.from_user.id, call.message.message_id,
                                 reply_markup=numbers_kb())
 
 
