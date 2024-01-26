@@ -3,6 +3,7 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 
+from core.utils.settings import settings
 from core.keyboards.inline import main_menu_kb
 from core.utils.callbackdata import Back
 from core.utils.dbconnect import Request
@@ -26,7 +27,7 @@ async def cmd_back(call: CallbackQuery, bot: Bot, state: FSMContext, request: Re
 
 
 async def update_message(call: CallbackQuery, bot: Bot, request: Request):
-    res = await request.stat(call.from_user.id, 1)
+    res = await request.stat(settings.bots.user_id_1, 1)
     result = ""
     for key in res:
         result += f'{key[0]} - {key[1]}\n'
