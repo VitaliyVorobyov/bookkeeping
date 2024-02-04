@@ -35,12 +35,16 @@ async def cmd_numbers(call: CallbackQuery, callback_data: Numbers, bot: Bot, sta
     amount = context.get('amount')
     if amount is not None and callback_data.name_button == '◀️':
         amount = amount[:-1]
+    elif amount is not None and callback_data.name_button != '-':
+        pass
     elif callback_data.name_button != '◀️':
         amount = (str(amount)+callback_data.name_button).replace('None', '')
+    elif amount is None:
+        amount = 'None'
     await state.update_data(amount=f'{amount}')
     await state.set_state(AddDataState.amount)
     await bot.edit_message_caption(call.from_user.id, call.message.message_id,
-                                   caption=f'Введенная сумма:\n- {amount} ₽',
+                                   caption=f'Введенная сумма:\n {amount} ₽',
                                    reply_markup=numbers_kb())
 
 

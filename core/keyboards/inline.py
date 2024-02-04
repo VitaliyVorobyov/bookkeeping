@@ -32,13 +32,13 @@ def select_sub_category_kb(sub_category: dict):
 def numbers_kb():
     kb = InlineKeyboardBuilder()
     list_kb = [
-        '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '◀️'
+        '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '0', '◀️'
     ]
     for i in list_kb:
         kb.button(text=i, callback_data=Numbers(name_button=i))
     kb.button(text='Готово ✅', callback_data=Send(name_button='send'))
     kb.button(text='Назад ⬅️', callback_data=Back(name_button='back'))
-    kb.adjust(3, 3, 3, 2, 1, 1)
+    kb.adjust(3, 3, 3, 3, 1, 1)
     return kb.as_markup()
 
 
