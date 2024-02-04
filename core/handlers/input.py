@@ -23,7 +23,6 @@ async def cmd_amount(call: CallbackQuery, bot: Bot, state: FSMContext):
         await bot.edit_message_caption(call.from_user.id, call.message.message_id, caption='Введите сумму взноса:',
                                        reply_markup=numbers_kb())
     except TelegramBadRequest:
-        await call.message.delete()
         await call.message.answer_photo(
             'https://vsegda-pomnim.com/uploads/posts/2022-03/1648753820_2-'
             'vsegda-pomnim-com-p-ozero-baikal-zima-foto-2.jpg',

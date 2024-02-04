@@ -24,13 +24,11 @@ async def cmd_send_date(call: CallbackQuery, bot: Bot, state: FSMContext, reques
                                        '**по умолчанию выведутся все категории**',
                                        reply_markup=subcategory_statistic_kb(sub_category))
     except TelegramBadRequest:
-        await call.message.delete()
         await call.message.answer_photo(
             'https://vsegda-pomnim.com/uploads/posts/2022-03/1648753820_2-'
             'vsegda-pomnim-com-p-ozero-baikal-zima-foto-2.jpg',
             f'Выберите категорию:',
             reply_markup=main_menu_kb())
-
 
 
 @router.callback_query(SubcategoryStat.filter(F.add_name_button == "subcategory"), StatisticsState.sub_category)

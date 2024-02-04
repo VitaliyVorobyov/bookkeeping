@@ -29,7 +29,6 @@ async def cmd_back(call: CallbackQuery, bot: Bot, state: FSMContext, request: Re
     try:
         await update_message(call, bot, request)
     except TelegramBadRequest:
-        await call.message.delete()
         await call.message.answer_photo(
             'https://vsegda-pomnim.com/uploads/posts/2022-03/1648753820_2-'
             'vsegda-pomnim-com-p-ozero-baikal-zima-foto-2.jpg',
