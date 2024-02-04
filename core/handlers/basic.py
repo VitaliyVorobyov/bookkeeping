@@ -18,7 +18,7 @@ async def cmd_start(message: Message, request: Request, state: FSMContext):
     await state.clear()
     await request.add_user(message.from_user.id, message.from_user.first_name)
     await message.answer_photo(
-        'https://vsegda-pomnim.com/uploads/posts/2022-03/1648753820_2-vsegda-pomnim-com-p-ozero-baikal-zima-foto-2.jpg',
+        'https://img4.teletype.in/files/33/64/33641fd1-271b-46c6-be9e-1c8f94f335f3.jpeg',
         f'Выберите категорию:',
         reply_markup=main_menu_kb())
 
@@ -30,8 +30,7 @@ async def cmd_back(call: CallbackQuery, bot: Bot, state: FSMContext, request: Re
         await update_message(call, bot, request)
     except TelegramBadRequest:
         await call.message.answer_photo(
-            'https://vsegda-pomnim.com/uploads/posts/2022-03/1648753820_2-'
-            'vsegda-pomnim-com-p-ozero-baikal-zima-foto-2.jpg',
+            'https://img4.teletype.in/files/33/64/33641fd1-271b-46c6-be9e-1c8f94f335f3.jpeg',
             f'Выберите категорию:',
             reply_markup=main_menu_kb())
 

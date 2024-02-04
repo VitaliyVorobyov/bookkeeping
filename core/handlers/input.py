@@ -24,8 +24,7 @@ async def cmd_amount(call: CallbackQuery, bot: Bot, state: FSMContext):
                                        reply_markup=numbers_kb())
     except TelegramBadRequest:
         await call.message.answer_photo(
-            'https://vsegda-pomnim.com/uploads/posts/2022-03/1648753820_2-'
-            'vsegda-pomnim-com-p-ozero-baikal-zima-foto-2.jpg',
+            'https://img4.teletype.in/files/33/64/33641fd1-271b-46c6-be9e-1c8f94f335f3.jpeg',
             f'Выберите категорию:',
             reply_markup=main_menu_kb())
 
