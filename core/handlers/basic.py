@@ -24,12 +24,12 @@ async def cmd_start(message: Message, request: Request, state: FSMContext):
 
 
 @router.callback_query(Back.filter(F.name_button == "back"))
-async def cmd_back(call: CallbackQuery, bot: Bot, state: FSMContext, request: Request):
+async def cmd_back(call: CallbackQuery, message: Message, bot: Bot, state: FSMContext, request: Request):
     await state.clear()
     try:
         await update_message(call, bot, request)
     except TelegramBadRequest:
-        await call.answer_photo(
+        await message.answer_photo(
             'https://vsegda-pomnim.com/uploads/posts/2022-03/1648753820_2'
             '-vsegda-pomnim-com-p-ozero-baikal-zima-foto-2.jpg',
             f'Выберите категорию:',
