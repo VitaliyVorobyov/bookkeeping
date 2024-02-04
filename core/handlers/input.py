@@ -9,22 +9,18 @@ from core.utils.callbackdata import MainMenu, SelectSubCategory, NewSubCategory,
 from core.utils.states import AddDataState
 from core.handlers.basic import update_message
 from core.utils.settings import settings
-from core.handlers.basic import cmd_start
 
 
 router = Router()
 
 
 @router.callback_query(MainMenu.filter(F.name_button == "input"))
-async def cmd_amount(call: CallbackQuery, bot: Bot, message: Message, request: Request, state: FSMContext):
+async def cmd_amount(call: CallbackQuery, bot: Bot, state: FSMContext):
     await state.set_state(AddDataState.category)
     await state.update_data(category=1)
     await state.set_state(AddDataState.amount)
-    try:
-        await bot.edit_message_caption(call.from_user.id, call.message.message_id, caption='Введите сумму взноса:',
-                                       reply_markup=numbers_kb())
-    except TelegramBadRequest:
-        await cmd_start(message, request, state)
+    await bot.edit_message_caption(call.from_user.id, call.message.message_id, caption='Введите сумму взноса:',
+                                   reply_markup=numbers_kb())
 
 
 @router.callback_query(Numbers.filter(), AddDataState.amount)
