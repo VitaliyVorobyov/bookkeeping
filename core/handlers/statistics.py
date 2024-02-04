@@ -59,4 +59,4 @@ async def cmd_send_data(call: CallbackQuery, bot: Bot, request: Request, state: 
     for key in res:
         result += f'|-{key[0]}-|-{key[1]}₽-|-{key[2]}-|\n'
     await bot.edit_message_text(f'Ваши взносы:\n\n{result}', call.from_user.id, call.message.message_id,
-                                reply_markup=back_kb(), parse_mode=ParseMode.HTML)
+                                reply_markup=back_kb())
