@@ -1,7 +1,7 @@
 from aiogram import Bot, Router, F
 from aiogram.types import CallbackQuery
 from aiogram.fsm.context import FSMContext
-from aiogram.enums import ParseMode
+
 from core.utils.settings import settings
 from core.utils.dbconnect import Request
 from core.keyboards.inline import subcategory_statistic_kb, back_kb
@@ -57,6 +57,6 @@ async def cmd_send_data(call: CallbackQuery, bot: Bot, request: Request, state: 
     res = await request.stat_all(settings.bots.user_id_1, 1, sub_category_list)
     result = ""
     for key in res:
-        result += f'<u>| {key[0]} | {key[1]}₽ | {key[2]} |</u>\n'
+        result += f'|-{key[0]}-|-{key[1]}₽-|-{key[2]}-|\n'
     await bot.edit_message_text(f'Ваши взносы:\n\n{result}', call.from_user.id, call.message.message_id,
                                 reply_markup=back_kb(), parse_mode=ParseMode.HTML)
