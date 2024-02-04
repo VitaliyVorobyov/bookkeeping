@@ -2,6 +2,7 @@ from aiogram import Bot, Router, F
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
+from aiogram.exceptions import TelegramBadRequest
 
 from core.utils.settings import settings
 from core.keyboards.inline import main_menu_kb
@@ -25,7 +26,10 @@ async def cmd_start(message: Message, request: Request, state: FSMContext):
 @router.callback_query(Back.filter(F.name_button == "back"))
 async def cmd_back(call: CallbackQuery, bot: Bot, state: FSMContext, request: Request):
     await state.clear()
-    await update_message(call, bot, request)
+    try:
+        await update_message(call, bot, request)
+    except TelegramBadRequest:
+        await cmd_start(call.message, request, state)
 
 
 async def update_message(call: CallbackQuery, bot: Bot, request: Request):
