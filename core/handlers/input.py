@@ -40,7 +40,7 @@ async def cmd_numbers(call: CallbackQuery, callback_data: Numbers, bot: Bot, sta
     elif callback_data.name_button != '◀️':
         amount = (str(amount)+callback_data.name_button).replace('None', '')
     elif amount is None:
-        amount = 'None'
+        pass
     await state.update_data(amount=f'{amount}')
     await state.set_state(AddDataState.amount)
     await bot.edit_message_caption(call.from_user.id, call.message.message_id,
