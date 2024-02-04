@@ -18,8 +18,8 @@ async def cmd_amount(call: CallbackQuery, bot: Bot, state: FSMContext):
     await state.set_state(AddDataState.category)
     await state.update_data(category=1)
     await state.set_state(AddDataState.amount)
-    await bot.edit_message_text('Введите сумму___________:', call.from_user.id, call.message.message_id,
-                                reply_markup=numbers_kb())
+    await bot.edit_message_caption(call.from_user.id, call.message.message_id, caption='Введите сумму взноса:',
+                                   reply_markup=numbers_kb())
 
 
 @router.callback_query(Numbers.filter(), AddDataState.amount)
@@ -32,8 +32,9 @@ async def cmd_numbers(call: CallbackQuery, callback_data: Numbers, bot: Bot, sta
         amount = (str(amount)+callback_data.name_button).replace('None', '')
     await state.update_data(amount=f'{amount}')
     await state.set_state(AddDataState.amount)
-    await bot.edit_message_text(f'Введенная сумма__________:\n- {amount} ₽', call.from_user.id, call.message.message_id,
-                                reply_markup=numbers_kb())
+    await bot.edit_message_caption(call.from_user.id, call.message.message_id,
+                                   caption=f'Введенная сумма:\n- {amount} ₽',
+                                   reply_markup=numbers_kb())
 
 
 @router.callback_query(Send.filter(), AddDataState.amount)
@@ -47,8 +48,8 @@ async def cmd_select_sub_category(call: CallbackQuery, bot: Bot, state: FSMConte
                                     call.from_user.id, call.message.message_id, reply_markup=back_kb())
     else:
         await state.set_state(AddDataState.sub_category)
-        await bot.edit_message_text('Выберите подкатегорию:', call.from_user.id, call.message.message_id,
-                                    reply_markup=select_sub_category_kb(sub_category))
+        await bot.edit_message_caption(call.from_user.id, call.message.message_id, caption='Выберите подкатегорию:',
+                                       reply_markup=select_sub_category_kb(sub_category))
 
 
 @router.message(AddDataState.new_sub_category)
@@ -62,9 +63,9 @@ async def cmd_new_sub_category(message: Message, bot: Bot, state: FSMContext, re
     await bot.delete_message(message.from_user.id, message.message_id)
     for i in range(100):
         try:
-            await bot.edit_message_text('Категория добавлена! Выберите подкатегорию:',
-                                        message.from_user.id, message.message_id-i,
-                                        reply_markup=select_sub_category_kb(sub_category))
+            await bot.edit_message_caption(message.from_user.id, message.message_id-i,
+                                           caption=f'Категория добавлена! Выберите подкатегорию:',
+                                           reply_markup=select_sub_category_kb(sub_category))
             break
         except TelegramBadRequest:
             pass
@@ -88,5 +89,6 @@ async def save_data_in_db(call: CallbackQuery, bot: Bot, callback_data: SelectSu
 @router.callback_query(NewSubCategory.filter(F.name_button == "new category"))
 async def new_category(call: CallbackQuery, bot: Bot, state: FSMContext):
     await state.set_state(AddDataState.new_sub_category)
-    await bot.edit_message_text('Введите название новой категории:', call.from_user.id, call.message.message_id,
-                                reply_markup=back_kb())
+    await bot.edit_message_caption(call.from_user.id, call.message.message_id,
+                                   caption='Введите название новой категории:',
+                                   reply_markup=back_kb())

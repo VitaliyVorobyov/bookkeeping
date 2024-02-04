@@ -17,10 +17,10 @@ async def cmd_send_date(call: CallbackQuery, bot: Bot, state: FSMContext, reques
     category = 1
     sub_category = await request.select_sub_category(settings.bots.user_id_1, category)
     await state.set_state(StatisticsState.sub_category)
-    await bot.edit_message_text('Выберите одну или несколько категорий:\n'
-                                '**по умолчанию выведутся все категории**',
-                                call.from_user.id, call.message.message_id,
-                                reply_markup=subcategory_statistic_kb(sub_category))
+    await bot.edit_message_caption(call.from_user.id, call.message.message_id,
+                                   caption='Выберите одну или несколько категорий:\n'
+                                   '**по умолчанию выведутся все категории**',
+                                   reply_markup=subcategory_statistic_kb(sub_category))
 
 
 @router.callback_query(SubcategoryStat.filter(F.add_name_button == "subcategory"), StatisticsState.sub_category)
@@ -58,5 +58,5 @@ async def cmd_send_data(call: CallbackQuery, bot: Bot, request: Request, state: 
     result = ""
     for key in res:
         result += f'| {key[0]} | {key[1]}₽ | {key[2]} |\n'
-    await bot.edit_message_text(f'Ваши взносы:\n\n{result}', call.from_user.id, call.message.message_id,
-                                reply_markup=back_kb())
+    await bot.edit_message_caption(call.from_user.id, call.message.message_id, caption=f'Ваши взносы:\n\n{result}',
+                                   reply_markup=back_kb())

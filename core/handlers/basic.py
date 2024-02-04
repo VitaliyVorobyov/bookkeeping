@@ -33,6 +33,6 @@ async def update_message(call: CallbackQuery, bot: Bot, request: Request):
     result = ""
     for key in res:
         result += f'{key[0]} - {key[1]}\n'
-    await bot.edit_message_text(f'Состояние ваших взносов на текущую дату:\n\n{result}',
-                                call.from_user.id, call.message.message_id,
-                                reply_markup=main_menu_kb())
+    await bot.edit_message_caption(call.from_user.id, call.message.message_id,
+                                   caption=f'Состояние ваших взносов на текущую дату:\n\n{result}',
+                                   reply_markup=main_menu_kb())
