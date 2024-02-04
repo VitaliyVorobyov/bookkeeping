@@ -4,7 +4,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.exceptions import TelegramBadRequest
 
 from core.utils.dbconnect import Request
-from core.keyboards.inline import back_kb, select_sub_category_kb, numbers_kb
+from core.keyboards.inline import back_kb, select_sub_category_kb, numbers_kb, main_menu_kb
 from core.utils.callbackdata import MainMenu, SelectSubCategory, NewSubCategory, Numbers, Send
 from core.utils.states import AddDataState
 from core.handlers.basic import update_message
@@ -19,8 +19,16 @@ async def cmd_amount(call: CallbackQuery, bot: Bot, state: FSMContext):
     await state.set_state(AddDataState.category)
     await state.update_data(category=1)
     await state.set_state(AddDataState.amount)
-    await bot.edit_message_caption(call.from_user.id, call.message.message_id, caption='Введите сумму взноса:',
-                                   reply_markup=numbers_kb())
+    try:
+        await bot.edit_message_caption(call.from_user.id, call.message.message_id, caption='Введите сумму взноса:',
+                                       reply_markup=numbers_kb())
+    except TelegramBadRequest:
+        await call.message.delete()
+        await call.message.answer_photo(
+            'https://vsegda-pomnim.com/uploads/posts/2022-03/1648753820_2-'
+            'vsegda-pomnim-com-p-ozero-baikal-zima-foto-2.jpg',
+            f'Выберите категорию:',
+            reply_markup=main_menu_kb())
 
 
 @router.callback_query(Numbers.filter(), AddDataState.amount)

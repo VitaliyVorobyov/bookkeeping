@@ -1,10 +1,11 @@
 from aiogram import Bot, Router, F
 from aiogram.types import CallbackQuery
 from aiogram.fsm.context import FSMContext
+from aiogram.exceptions import TelegramBadRequest
 
 from core.utils.settings import settings
 from core.utils.dbconnect import Request
-from core.keyboards.inline import subcategory_statistic_kb, back_kb
+from core.keyboards.inline import subcategory_statistic_kb, back_kb, main_menu_kb
 from core.utils.callbackdata import MainMenu, SubcategoryStat
 from core.utils.states import StatisticsState
 
@@ -17,10 +18,19 @@ async def cmd_send_date(call: CallbackQuery, bot: Bot, state: FSMContext, reques
     category = 1
     sub_category = await request.select_sub_category(settings.bots.user_id_1, category)
     await state.set_state(StatisticsState.sub_category)
-    await bot.edit_message_caption(call.from_user.id, call.message.message_id,
-                                   caption='Выберите одну или несколько категорий:\n'
-                                   '**по умолчанию выведутся все категории**',
-                                   reply_markup=subcategory_statistic_kb(sub_category))
+    try:
+        await bot.edit_message_caption(call.from_user.id, call.message.message_id,
+                                       caption='Выберите одну или несколько категорий:\n'
+                                       '**по умолчанию выведутся все категории**',
+                                       reply_markup=subcategory_statistic_kb(sub_category))
+    except TelegramBadRequest:
+        await call.message.delete()
+        await call.message.answer_photo(
+            'https://vsegda-pomnim.com/uploads/posts/2022-03/1648753820_2-'
+            'vsegda-pomnim-com-p-ozero-baikal-zima-foto-2.jpg',
+            f'Выберите категорию:',
+            reply_markup=main_menu_kb())
+
 
 
 @router.callback_query(SubcategoryStat.filter(F.add_name_button == "subcategory"), StatisticsState.sub_category)
