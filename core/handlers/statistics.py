@@ -56,6 +56,6 @@ async def cmd_send_data(call: CallbackQuery, bot: Bot, request: Request, state: 
     res = await request.stat_all(settings.bots.user_id_1, 1, sub_category_list)
     result = ""
     for key in res:
-        result += f'| {key[0]} | {key[1]}₽ | {key[2]} |\n____________\n'
+        result += f'| {key[0]} | {key[1]}₽ | {key[2]} |\n_____________________________\n'
     await bot.edit_message_text(f'Ваши взносы:\n\n{result}', call.from_user.id, call.message.message_id,
                                 reply_markup=back_kb())
