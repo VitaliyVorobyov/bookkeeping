@@ -35,7 +35,7 @@ async def cmd_numbers(call: CallbackQuery, callback_data: Numbers, bot: Bot, sta
     amount = context.get('amount')
     if amount is not None and callback_data.name_button == '◀️':
         amount = amount[:-1]
-    elif amount is not None and callback_data.name_button != '-':
+    elif amount is not None and callback_data.name_button == '-':
         pass
     elif callback_data.name_button != '◀️':
         amount = (str(amount)+callback_data.name_button).replace('None', '')
