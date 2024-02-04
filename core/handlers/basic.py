@@ -29,7 +29,6 @@ async def cmd_back(call: CallbackQuery, bot: Bot, state: FSMContext, request: Re
     try:
         await update_message(call, bot, request)
     except TelegramBadRequest:
-        await bot.delete_message(settings.bots.user_id_1, call.message.message_id)
         await call.message.answer_photo(
             'https://img4.teletype.in/files/33/64/33641fd1-271b-46c6-be9e-1c8f94f335f3.jpeg',
             f'Выберите категорию:',
