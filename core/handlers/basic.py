@@ -13,10 +13,10 @@ router = Router()
 
 
 @router.message(Command("start"))
-async def cmd_start(bot: Bot, message: Message, request: Request, state: FSMContext):
+async def cmd_start(message: Message, request: Request, state: FSMContext):
     await state.clear()
     await request.add_user(message.from_user.id, message.from_user.first_name)
-    await bot.send_photo(message.from_user.id, 'media/photo_2024-02-04 20.29.51.jpeg')
+    await message.answer_photo('media/photo_2024-02-04 20.29.51.jpeg')
     await message.answer(f'Выберите категорию:',
                          reply_markup=main_menu_kb())
 
