@@ -16,9 +16,10 @@ router = Router()
 async def cmd_start(message: Message, request: Request, state: FSMContext):
     await state.clear()
     await request.add_user(message.from_user.id, message.from_user.first_name)
-    await message.answer_photo('http://vsegda-pomnim.com/uploads/posts/2022-03/1648753820_2-vsegda-pomnim-com-p-ozero-baikal-zima-foto-2.jpg')
-    await message.answer(f'Выберите категорию:',
-                         reply_markup=main_menu_kb())
+    await message.answer_photo(
+        'https://vsegda-pomnim.com/uploads/posts/2022-03/1648753820_2-vsegda-pomnim-com-p-ozero-baikal-zima-foto-2.jpg',
+        f'Выберите категорию:',
+        reply_markup=main_menu_kb())
 
 
 @router.callback_query(Back.filter(F.name_button == "back"))
