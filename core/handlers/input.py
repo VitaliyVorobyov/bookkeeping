@@ -8,6 +8,7 @@ from core.keyboards.inline import back_kb, select_sub_category_kb, numbers_kb
 from core.utils.callbackdata import MainMenu, SelectSubCategory, NewSubCategory, Numbers, Send
 from core.utils.states import AddDataState
 from core.handlers.basic import update_message
+from core.utils.settings import settings
 
 
 router = Router()
@@ -41,7 +42,7 @@ async def cmd_numbers(call: CallbackQuery, callback_data: Numbers, bot: Bot, sta
 async def cmd_select_sub_category(call: CallbackQuery, bot: Bot, state: FSMContext, request: Request):
     await state.set_state(AddDataState.sub_category)
     category = 1
-    sub_category = await request.select_sub_category(133233628, category)
+    sub_category = await request.select_sub_category(settings.bots.user_id_1, category)
     if len(sub_category) == 0:
         await state.set_state(AddDataState.new_sub_category)
         await bot.edit_message_text('Вы еще не добавили ни одной категории. Введите название новой категории:',
@@ -57,8 +58,8 @@ async def cmd_new_sub_category(message: Message, bot: Bot, state: FSMContext, re
     await state.update_data(new_sub_category=message.text)
     category = 1
     name_sub_category = message.text
-    await request.add_sub_category(133233628, category, name_sub_category)
-    sub_category = await request.select_sub_category(133233628, category)
+    await request.add_sub_category(settings.bots.user_id_1, category, name_sub_category)
+    sub_category = await request.select_sub_category(settings.bots.user_id_1, category)
     await state.set_state(AddDataState.sub_category)
     await bot.delete_message(message.from_user.id, message.message_id)
     for i in range(100):
@@ -81,7 +82,7 @@ async def save_data_in_db(call: CallbackQuery, bot: Bot, callback_data: SelectSu
     amount = int(context.get('amount'))
     category_id = 1
     sub_category = callback_data.id_sub_category
-    await request.add_entry(133233628, category_id, sub_category, amount)
+    await request.add_entry(settings.bots.user_id_1, category_id, sub_category, amount)
     await state.clear()
     await update_message(call, bot, request)
 
