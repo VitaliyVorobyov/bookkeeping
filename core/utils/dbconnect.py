@@ -68,5 +68,5 @@ class Request:
         query = (f"SELECT sub_category_name, amount, DATE(created_at) FROM subcategories INNER JOIN entries "
                  f"ON entries.user_id = subcategories.user_id AND entries.sub_category_id = subcategories.id "
                  f"WHERE entries.user_id = $1 AND subcategories.id = ANY($2::int[]) "
-                 f"AND entries.category_id = $3")
+                 f"AND entries.category_id = $3 ORDER BY created_at")
         return await self.connector.fetch(query, user_id, list_category, category_id)
